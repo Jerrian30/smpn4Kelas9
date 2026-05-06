@@ -1,0 +1,390 @@
+<!doctype html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Simulasi Ujian Informatika</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        background: #f4f6f9;
+        padding: 20px;
+      }
+      .container {
+        max-width: 900px;
+        margin: auto;
+        background: white;
+        padding: 20px;
+        border-radius: 10px;
+      }
+      h1 {
+        text-align: center;
+      }
+      .soal {
+        margin-bottom: 25px;
+      }
+      .pilihan {
+        display: block;
+        padding: 10px;
+        margin: 5px 0;
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        cursor: pointer;
+      }
+      .pilihan:hover {
+        background: #e3f2fd;
+      }
+      input[type="radio"] {
+        display: none;
+      }
+      input[type="radio"]:checked + label {
+        background: #bbdefb;
+        border: 2px solid #2196f3;
+      }
+      button {
+        padding: 10px 20px;
+        font-size: 16px;
+        background: #2196f3;
+        color: white;
+        border: none;
+        border-radius: 8px;
+        cursor: pointer;
+      }
+      button:hover {
+        background: #1976d2;
+      }
+      #hasil {
+        margin-top: 20px;
+        padding: 15px;
+        background: #e8f5e9;
+        border-radius: 10px;
+      }
+      .salah {
+        color: red;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h1>Simulasi Ujian Informatika Kelas IX</h1>
+
+      <form id="quizForm"></form>
+
+      <button onclick="koreksi()">Kumpulkan Jawaban</button>
+
+      <div id="hasil"></div>
+    </div>
+
+    <script>
+      const soal = [
+        {
+          t: "Pilar berpikir komputasional yang fokus pada pemecahan masalah besar menjadi bagian-bagian yang lebih kecil dan lebih mudah dikelola adalah...",
+          o: ["Abstraksi", "Algoritma", "Pengenalan Pola", "Dekomposisi"],
+          a: "D",
+        },
+        {
+          t: "Mengidentifikasi kesamaan atau pola masalah yang pernah diselesaikan sebelumnya dengan masalah yang sedang dihadapi disebut...",
+          o: ["Abstraksi", "Pengenalan Pola", "Dekomposisi", "Algoritma"],
+          a: "B",
+        },
+        {
+          t: "Proses menyaring informasi yang penting dan mengabaikan detail yang tidak relevan dengan masalah yang sedang dihadapi disebut...",
+          o: ["Abstraksi", "Dekomposisi", "Pengenalan Pola", "Algoritma"],
+          a: "A",
+        },
+        {
+          t: "Langkah-langkah atau instruksi yang terurut dan sistematis untuk mencapai solusi dari suatu masalah disebut...",
+          o: ["Abstraksi", "Algoritma", "Dekomposisi", "Pola"],
+          a: "B",
+        },
+        {
+          t: "Jika Anda membagi tugas kelompok menjadi tugas mencari materi, mengetik, dan membuat presentasi, konsep berpikir komputasional yang digunakan adalah...",
+          o: ["Algoritma", "Abstraksi", "Dekomposisi", "Pengenalan Pola"],
+          a: "C",
+        },
+        {
+          t: "Saat melihat deret angka 2, 4, 6, 8, dan kita dapat menebak bahwa angka selanjutnya adalah 10, kita menggunakan prinsip...",
+          o: ["Pengenalan Pola", "Abstraksi", "Dekomposisi", "Sistem Operasi"],
+          a: "A",
+        },
+        {
+          t: "Ketika membuat program, mengabaikan kerumitan bahasa mesin dan hanya fokus pada fungsi instruksi yang ditulis adalah penerapan...",
+          o: ["Dekomposisi", "Abstraksi", "Pengenalan Pola", "Optimasi"],
+          a: "B",
+        },
+        {
+          t: "Cara penyimpanan, penyusunan, dan pengaturan data di dalam sistem komputer sehingga data tersebut dapat diakses dan digunakan dengan efisien disebut...",
+          o: [
+            "Struktur Data",
+            "Algoritma",
+            "Sistem Operasi",
+            "Perangkat Keras",
+          ],
+          a: "A",
+        },
+        {
+          t: "Struktur data yang bekerja dengan prinsip Last In First Out (LIFO), di mana data terakhir yang dimasukkan adalah yang pertama kali diambil, disebut...",
+          o: ["Queue", "Array", "Stack", "Tree"],
+          a: "C",
+        },
+        {
+          t: "Struktur data yang bekerja dengan prinsip First In First Out (FIFO), seperti antrean loket, disebut...",
+          o: ["Stack", "Queue", "Array", "Graph"],
+          a: "B",
+        },
+        {
+          t: "Proses menemukan nilai atau informasi tertentu di dalam kumpulan data disebut...",
+          o: ["Sorting", "Searching", "Deleting", "Merging"],
+          a: "B",
+        },
+        {
+          t: "Metode pencarian data yang dilakukan secara berurutan satu per satu dari awal hingga akhir data disebut...",
+          o: [
+            "Binary Search",
+            "Linear/Sequential Search",
+            "Interpolation Search",
+            "Random Search",
+          ],
+          a: "B",
+        },
+        {
+          t: "Metode pencarian yang membagi data menjadi dua bagian untuk mempercepat pencarian, dengan syarat data harus diurutkan terlebih dahulu disebut...",
+          o: [
+            "Sequential Search",
+            "Linear Search",
+            "Binary Search",
+            "Bubble Sort",
+          ],
+          a: "C",
+        },
+        {
+          t: "Proses mengurutkan data dari nilai terkecil ke terbesar atau sebaliknya disebut...",
+          o: ["Searching", "Sorting", "Filtering", "Grouping"],
+          a: "B",
+        },
+        {
+          t: "Perangkat keras komputer yang berfungsi untuk memasukkan data atau instruksi dari pengguna ke dalam sistem komputer adalah...",
+          o: [
+            "Output Device",
+            "Input Device",
+            "Processing Device",
+            "Storage Device",
+          ],
+          a: "B",
+        },
+        {
+          t: "Di bawah ini yang termasuk perangkat masukan (input device) adalah...",
+          o: ["Monitor", "Printer", "Keyboard", "Speaker"],
+          a: "C",
+        },
+        {
+          t: 'Perangkat yang berfungsi sebagai pusat pengolah data atau "otak" komputer adalah...',
+          o: ["RAM", "CPU (Central Processing Unit)", "Harddisk", "Flashdisk"],
+          a: "B",
+        },
+        {
+          t: "Perangkat penyimpanan data yang bersifat permanen atau tidak hilang saat komputer dimatikan adalah...",
+          o: ["RAM", "Processor", "Harddisk / SSD", "Mouse"],
+          a: "C",
+        },
+        {
+          t: "Program dasar yang menjembatani antara pengguna dengan perangkat keras komputer agar dapat beroperasi disebut...",
+          o: [
+            "Aplikasi Perkantoran",
+            "Sistem Operasi (Operating System)",
+            "Antivirus",
+            "Web Browser",
+          ],
+          a: "B",
+        },
+        {
+          t: "Manusia atau pengguna yang mengoperasikan dan mengendalikan sistem komputer disebut...",
+          o: ["Hardware", "Software", "Brainware", "Malware"],
+          a: "C",
+        },
+        {
+          t: "Komponen fisik pada komputer yang dapat dilihat dan disentuh secara langsung disebut...",
+          o: ["Software", "Hardware", "Brainware", "Firmware"],
+          a: "B",
+        },
+        {
+          t: "Jaringan komputer yang memiliki cakupan wilayah paling kecil, biasanya digunakan untuk menghubungkan perangkat pribadi dalam jarak sangat dekat, adalah...",
+          o: ["LAN", "MAN", "PAN", "WAN"],
+          a: "C",
+        },
+        {
+          t: "Jaringan komputer yang mencakup area sebuah kota atau area metropolitan disebut...",
+          o: ["PAN", "LAN", "MAN", "WAN"],
+          a: "C",
+        },
+        {
+          t: "Jaringan yang digunakan untuk menghubungkan komputer dalam area terbatas seperti rumah, sekolah, atau laboratorium komputer adalah...",
+          o: ["WAN", "LAN", "MAN", "PAN"],
+          a: "B",
+        },
+        {
+          t: "Jaringan global yang menghubungkan komputer dan perangkat di seluruh dunia adalah...",
+          o: ["Intranet", "Extranet", "Internet", "LAN"],
+          a: "C",
+        },
+        {
+          t: "Pola atau skema hubungan antar komputer (node) dalam sebuah jaringan disebut...",
+          o: ["Protokol", "Topologi", "Bandwidth", "Gateway"],
+          a: "B",
+        },
+        {
+          t: "Perangkat keamanan jaringan yang berfungsi untuk menyaring dan memantau lalu lintas jaringan yang masuk dan keluar adalah...",
+          o: ["Router", "Switch", "Firewall", "Hub"],
+          a: "C",
+        },
+        {
+          t: "Langkah awal yang tepat untuk troubleshooting ketika koneksi internet di komputer tiba-tiba terputus adalah...",
+          o: [
+            "Memformat ulang komputer",
+            "Memeriksa kabel jaringan dan merestart router",
+            "Mengganti motherboard",
+            "Menginstal ulang sistem operasi",
+          ],
+          a: "B",
+        },
+        {
+          t: "Aplikasi perkantoran yang paling tepat digunakan untuk menyusun, mengedit, dan membuat dokumen teks adalah...",
+          o: [
+            "Microsoft Excel",
+            "Microsoft PowerPoint",
+            "Microsoft Word",
+            "Microsoft Access",
+          ],
+          a: "C",
+        },
+        {
+          t: "Aplikasi pengolah angka yang digunakan untuk melakukan perhitungan matematis, mengelola data numerik, dan membuat grafik adalah...",
+          o: [
+            "Microsoft Word",
+            "Microsoft Excel",
+            "Microsoft PowerPoint",
+            "Microsoft Paint",
+          ],
+          a: "B",
+        },
+        {
+          t: "Fungsi utama dari Microsoft PowerPoint adalah untuk...",
+          o: [
+            "Mengolah kata",
+            "Membuat presentasi visual",
+            "Mengelola basis data",
+            "Mengedit foto",
+          ],
+          a: "B",
+        },
+        {
+          t: "Ekstensi file standar untuk dokumen yang disimpan pada Microsoft Word versi 2007 ke atas adalah...",
+          o: [".xlsx", ".docx", ".pptx", ".txt"],
+          a: "B",
+        },
+        {
+          t: "Pada Microsoft Excel, fungsi rumus yang digunakan untuk mencari rata-rata dari suatu rentang data adalah...",
+          o: ["SUM", "MAX", "AVERAGE", "COUNT"],
+          a: "C",
+        },
+        {
+          t: "Fitur yang digunakan untuk memberikan efek perpindahan antar slide saat presentasi pada Microsoft PowerPoint adalah...",
+          o: ["Animation", "Transition", "SmartArt", "Slide Master"],
+          a: "B",
+        },
+        {
+          t: "Kemampuan seseorang untuk menggunakan, memahami, dan mengevaluasi informasi digital dengan bertanggung jawab dan aman disebut...",
+          o: [
+            "Literasi Fisik",
+            "Literasi Digital",
+            "Literasi Keuangan",
+            "Literasi Membaca",
+          ],
+          a: "B",
+        },
+        {
+          t: "Rekam jejak data atau informasi yang kita tinggalkan saat beraktivitas dan menggunakan internet disebut...",
+          o: [
+            "Jejak Digital (Digital Footprint)",
+            "File Sementara",
+            "Riwayat Komputasi",
+            "Cookie",
+          ],
+          a: "A",
+        },
+        {
+          t: "Tindakan intimidasi, ancaman, atau pelecehan yang dilakukan melalui media digital atau internet disebut...",
+          o: ["Cybercrime", "Cyberbullying", "Hacking", "Phishing"],
+          a: "B",
+        },
+        {
+          t: "Jika Anda melihat teman atau orang lain mengalami perundungan siber (cyberbullying) di media sosial, sikap yang sebaiknya diambil adalah...",
+          o: [
+            "Ikut menyebarkan pesan tersebut",
+            "Mengabaikan dan membiarkannya",
+            "Memberikan dukungan kepada korban dan melaporkan akun pelaku",
+            "Membuat akun palsu untuk membalas",
+          ],
+          a: "C",
+        },
+        {
+          t: "Prinsip dasar dalam etika digital saat berinteraksi di media sosial adalah...",
+          o: [
+            "Menyebarkan informasi pribadi orang lain tanpa izin",
+            "Berpikir sebelum memposting dan menghargai privasi orang lain",
+            "Menggunakan kata-kata kasar untuk menunjukkan kebebasan berpendapat",
+            "Membagikan semua hoaks yang diterima",
+          ],
+          a: "B",
+        },
+        {
+          t: "Langkah yang paling tepat untuk menjaga kerahasiaan dan keamanan privasi di ruang digital adalah...",
+          o: [
+            "Menggunakan satu kata sandi untuk semua akun",
+            "Membagikan kata sandi kepada teman dekat agar tidak lupa",
+            "Tidak memposting atau membagikan data pribadi yang sensitif secara sembarangan",
+            "Mengizinkan semua akses lokasi pada aplikasi",
+          ],
+          a: "C",
+        },
+      ];
+
+      const form = document.getElementById("quizForm");
+
+      soal.forEach((s, i) => {
+        let html = `<div class="soal"><p>${i + 1}. ${s.t}</p>`;
+        s.o.forEach((opt, j) => {
+          let huruf = String.fromCharCode(65 + j);
+          html += `
+<input type="radio" name="q${i}" id="q${i}${huruf}" value="${huruf}">
+<label class="pilihan" for="q${i}${huruf}">${huruf}. ${opt}</label>
+`;
+        });
+        html += `</div>`;
+        form.innerHTML += html;
+      });
+
+      function koreksi() {
+        let skor = 0;
+        let salah = [];
+
+        soal.forEach((s, i) => {
+          let pilih = document.querySelector(`input[name="q${i}"]:checked`);
+          if (pilih) {
+            if (pilih.value === s.a) {
+              skor++;
+            } else {
+              salah.push(`Soal ${i + 1} (Jawaban benar: ${s.a})`);
+            }
+          } else {
+            salah.push(`Soal ${i + 1} (Tidak dijawab, benar: ${s.a})`);
+          }
+        });
+
+        document.getElementById("hasil").innerHTML = `
+<h3>Skor: ${skor} / ${soal.length}</h3>
+<p class="salah">${salah.join("<br>")}</p>
+`;
+      }
+    </script>
+  </body>
+</html>
