@@ -4,10 +4,11 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Simulasi Ujian Informatika</title>
+
   <style>
     body{
       font-family: Arial, sans-serif;
-      background:#f4f4f4;
+      background:#f2f2f2;
       margin:0;
       padding:20px;
     }
@@ -23,12 +24,7 @@
 
     h1{
       text-align:center;
-      color:#0b5394;
-    }
-
-    .info{
-      margin-bottom:20px;
-      line-height:1.7;
+      color:#004aad;
     }
 
     .soal{
@@ -45,315 +41,361 @@
 
     label{
       display:block;
-      margin:6px 0;
+      margin:7px 0;
       cursor:pointer;
+      padding:4px;
+      border-radius:5px;
     }
 
     button{
       width:100%;
       padding:15px;
-      background:#0b5394;
-      color:white;
       border:none;
       border-radius:8px;
+      background:#004aad;
+      color:white;
       font-size:18px;
       cursor:pointer;
     }
 
     button:hover{
-      background:#073763;
+      background:#00337a;
     }
 
     .benar{
-      background:#c6efce;
-      padding:5px;
-      border-radius:5px;
+      background:#b6f5b6;
     }
 
     .salah{
-      background:#ffc7ce;
-      padding:5px;
-      border-radius:5px;
+      background:#ffb3b3;
     }
 
     #hasil{
       margin-top:20px;
-      font-size:22px;
       text-align:center;
+      font-size:24px;
       font-weight:bold;
     }
   </style>
 </head>
+
 <body>
 
 <div class="container">
-  <h1>Simulasi Ujian Informatika</h1>
 
-  <div class="info">
-    <b>Mata Pelajaran:</b> Informatika<br>
-    <b>Kelas:</b> VII Semester 2<br>
-    <b>Jumlah Soal:</b> 40 Pilihan Ganda
-  </div>
+<h1>Simulasi Ujian Informatika</h1>
 
-  <form id="quiz"></form>
+<div id="quiz"></div>
 
-  <button onclick="cekJawaban()">Koreksi Jawaban</button>
+<button onclick="cekJawaban()">Koreksi Jawaban</button>
 
-  <div id="hasil"></div>
+<div id="hasil"></div>
+
 </div>
 
 <script>
+
 const soal = [
+
 {
-t:"Apa pertemuan antara baris dan kolom pada Excel disebut?",
-o:["Worksheet","Cell","Ribbon","Formula"],
+t:"Microsoft Excel digunakan untuk?",
+o:["Mengolah angka","Mengedit video","Membuat game","Menggambar"],
+j:"Mengolah angka"
+},
+
+{
+t:"Pertemuan antara baris dan kolom disebut?",
+o:["Sheet","Cell","Ribbon","Menu"],
 j:"Cell"
 },
+
 {
-t:"Baris pada Excel ditandai dengan?",
-o:["Huruf","Simbol","Angka","Warna"],
-j:"Angka"
-},
-{
-t:"Kolom pada Excel ditandai dengan?",
-o:["Huruf","Angka","Simbol","Garis"],
-j:"Huruf"
-},
-{
-t:"Penulisan rumus di Excel harus diawali dengan?",
+t:"Rumus Excel harus diawali dengan tanda?",
 o:["#","=","+","@"],
 j:"="
 },
+
 {
-t:"Rumus untuk menjumlahkan data adalah?",
-o:["COUNT","SUM","MAX","MIN"],
-j:"SUM"
+t:"Rumus SUM digunakan untuk?",
+o:["Menghitung rata-rata","Menjumlahkan data","Mencari nilai terbesar","Menghitung jumlah sel"],
+j:"Menjumlahkan data"
 },
+
 {
-t:"Rumus untuk mencari rata-rata adalah?",
-o:["AVERAGE","COUNT","SUM","IF"],
-j:"AVERAGE"
+t:"Rumus AVERAGE digunakan untuk?",
+o:["Mencari rata-rata","Menjumlahkan","Mengurangi","Membagi"],
+j:"Mencari rata-rata"
 },
+
 {
-t:"Rumus untuk mencari nilai terbesar adalah?",
-o:["MAX","MIN","COUNT","SUM"],
-j:"MAX"
+t:"Jenis data berupa angka disebut?",
+o:["Numerik","Teks","Gambar","Video"],
+j:"Numerik"
 },
+
 {
-t:"Rumus untuk mencari nilai terkecil adalah?",
-o:["MIN","MAX","SUM","COUNT"],
-j:"MIN"
-},
-{
-t:"Rumus COUNT digunakan untuk?",
-o:["Menghitung jumlah data","Menjumlahkan data","Mencari rata-rata","Mencari nilai terbesar"],
-j:"Menghitung jumlah data"
-},
-{
-t:"SUMIF digunakan untuk?",
-o:["Menghitung data","Menjumlah data dengan syarat","Mencari nilai terbesar","Membagi data"],
-j:"Menjumlah data dengan syarat"
-},
-{
-t:"Analisis data bertujuan untuk?",
-o:["Menghapus data","Memahami informasi","Merusak data","Menyimpan game"],
+t:"Tujuan analisis data adalah?",
+o:["Menghapus data","Memahami informasi","Merusak file","Menggambar"],
 j:"Memahami informasi"
 },
+
 {
-t:"Manfaat analisis data dalam kehidupan sehari-hari adalah?",
-o:["Membantu mengambil keputusan","Menghapus file","Merusak komputer","Menggambar"],
-j:"Membantu mengambil keputusan"
+t:"SUMIF digunakan untuk?",
+o:["Menjumlah data dengan syarat","Mencari nilai minimum","Menghitung data","Menghapus data"],
+j:"Menjumlah data dengan syarat"
 },
+
 {
-t:"Aplikasi yang digunakan untuk membuat animasi blok adalah?",
-o:["Word","Scratch","Paint","Excel"],
-j:"Scratch"
+t:"Sel B3 berarti?",
+o:["Kolom B baris 3","Baris B kolom 3","Kolom 3 baris B","Sheet B"],
+j:"Kolom B baris 3"
 },
+
 {
-t:"Blok gerakan pada Scratch disebut?",
-o:["Motion","Sound","Looks","Control"],
-j:"Motion"
+t:"ScratchJr digunakan untuk belajar?",
+o:["Memasak","Pemrograman dasar","Menggambar manual","Mengetik"],
+j:"Pemrograman dasar"
 },
+
 {
-t:"Blok suara pada Scratch disebut?",
-o:["Looks","Sound","Events","Motion"],
-j:"Sound"
+t:"Urutan langkah-langkah untuk menyelesaikan masalah disebut?",
+o:["Algoritma","Data","Program","Tabel"],
+j:"Algoritma"
 },
+
 {
-t:"Teknologi dapat memberikan dampak positif berupa?",
-o:["Malas belajar","Mempermudah komunikasi","Cyberbullying","Kecanduan game"],
-j:"Mempermudah komunikasi"
+t:"Karakter pada ScratchJr disebut?",
+o:["Sprite","Cell","Sheet","Pointer"],
+j:"Sprite"
 },
+
 {
-t:"Contoh dampak negatif teknologi adalah?",
-o:["Belajar online","Cyberbullying","Mencari informasi","Video call"],
-j:"Cyberbullying"
+t:"Tempat sprite bergerak disebut?",
+o:["Ribbon","Stage","Menu","Cell"],
+j:"Stage"
 },
+
 {
-t:"Penggunaan media sosial yang bijak adalah?",
-o:["Menghina teman","Menyebar hoax","Menggunakan dengan sopan","Membully orang"],
-j:"Menggunakan dengan sopan"
+t:"Blok warna biru pada ScratchJr biasanya untuk?",
+o:["Gerakan","Suara","Tampilan","Pengulangan"],
+j:"Gerakan"
 },
+
 {
-t:"Apa yang dimaksud cyberbullying?",
-o:["Belajar online","Perundungan di dunia maya","Belanja online","Main game"],
-j:"Perundungan di dunia maya"
+t:"Blok kuning pada ScratchJr digunakan untuk?",
+o:["Memulai program","Menghapus sprite","Menggambar","Menyimpan"],
+j:"Memulai program"
 },
+
 {
-t:"Jejak digital adalah?",
-o:["Bekas sepatu","Rekam aktivitas di internet","File kosong","Program komputer"],
-j:"Rekam aktivitas di internet"
+t:"Blok pengulangan digunakan untuk?",
+o:["Mengulang perintah","Menghapus program","Mengubah warna","Mematikan aplikasi"],
+j:"Mengulang perintah"
 },
+
 {
-t:"Contoh jejak digital adalah?",
-o:["Postingan media sosial","Sepeda","Pensil","Buku"],
-j:"Postingan media sosial"
+t:"Jika sprite bergerak maju 3 kali, berarti program melakukan?",
+o:["Perulangan","Kesalahan","Penghapusan","Penyimpanan"],
+j:"Perulangan"
 },
+
 {
-t:"Workbook pada Excel adalah?",
-o:["Kumpulan worksheet","Kolom","Baris","Cell"],
-j:"Kumpulan worksheet"
+t:"Informasi palsu di internet disebut?",
+o:["Data","Hoax","Program","File"],
+j:"Hoax"
 },
+
 {
-t:"Bagian tempat mengetik rumus disebut?",
-o:["Formula Bar","Title Bar","Ribbon","Sheet"],
-j:"Formula Bar"
+t:"Cara menghadapi hoax adalah?",
+o:["Langsung menyebarkan","Memeriksa kebenaran informasi","Menghapus HP","Marah"],
+j:"Memeriksa kebenaran informasi"
 },
+
 {
-t:"Ctrl + C digunakan untuk?",
-o:["Menempel","Menyalin","Menghapus","Menyimpan"],
-j:"Menyalin"
-},
-{
-t:"Ctrl + V digunakan untuk?",
-o:["Menempel","Menyalin","Menyimpan","Membuka"],
-j:"Menempel"
-},
-{
-t:"Data angka di Excel biasanya rata?",
-o:["Kiri","Kanan","Tengah","Atas"],
-j:"Kanan"
-},
-{
-t:"Data teks di Excel biasanya rata?",
-o:["Kanan","Kiri","Bawah","Atas"],
-j:"Kiri"
-},
-{
-t:"Scratch menggunakan sistem pemrograman?",
-o:["Mengetik kode penuh","Blok","Bahasa mesin","Biner"],
-j:"Blok"
-},
-{
-t:"Blok kontrol pada Scratch berfungsi untuk?",
-o:["Mengatur alur program","Menggambar","Menyimpan file","Menulis teks"],
-j:"Mengatur alur program"
-},
-{
-t:"Internet yang digunakan berlebihan dapat menyebabkan?",
-o:["Rajin belajar","Kecanduan","Semangat olahraga","Tidur cepat"],
+t:"Media sosial yang digunakan berlebihan dapat menyebabkan?",
+o:["Rajin belajar","Kecanduan","Sehat","Semangat olahraga"],
 j:"Kecanduan"
 },
+
 {
-t:"Media sosial dapat digunakan untuk?",
-o:["Belajar dan komunikasi","Membully","Menipu","Menyebar hoax"],
-j:"Belajar dan komunikasi"
+t:"Jejak digital adalah?",
+o:["Rekam aktivitas di internet","Bekas kaki","File kosong","Program komputer"],
+j:"Rekam aktivitas di internet"
 },
+
 {
-t:"Contoh aplikasi spreadsheet adalah?",
-o:["Excel","Paint","Scratch","Chrome"],
-j:"Excel"
+t:"Contoh jejak digital adalah?",
+o:["Postingan media sosial","Pensil","Tas","Sepatu"],
+j:"Postingan media sosial"
 },
+
 {
-t:"File Excel memiliki ekstensi?",
-o:[".docx",".xlsx",".ppt",".html"],
-j:".xlsx"
+t:"Data pribadi harus dijaga agar?",
+o:["Aman","Terkenal","Cepat rusak","Mudah dicuri"],
+j:"Aman"
 },
+
 {
-t:"Apa fungsi MIN pada Excel?",
-o:["Nilai terbesar","Nilai terkecil","Jumlah data","Rata-rata"],
-j:"Nilai terkecil"
+t:"Ctrl + C berfungsi untuk?",
+o:["Menyalin","Menempel","Menghapus","Menyimpan"],
+j:"Menyalin"
 },
+
 {
-t:"Apa fungsi MAX pada Excel?",
+t:"Ctrl + V digunakan untuk?",
+o:["Menempel","Menyalin","Membuka","Menyimpan"],
+j:"Menempel"
+},
+
+{
+t:"Baris pada Excel ditandai dengan?",
+o:["Angka","Huruf","Warna","Simbol"],
+j:"Angka"
+},
+
+{
+t:"Kolom pada Excel ditandai dengan?",
+o:["Huruf","Angka","Warna","Simbol"],
+j:"Huruf"
+},
+
+{
+t:"Workbook adalah?",
+o:["Kumpulan worksheet","Baris","Kolom","Cell"],
+j:"Kumpulan worksheet"
+},
+
+{
+t:"Rumus MAX digunakan untuk mencari?",
 o:["Nilai terbesar","Nilai terkecil","Jumlah data","Rata-rata"],
 j:"Nilai terbesar"
 },
+
 {
-t:"Mengunggah foto sembarangan di internet dapat mempengaruhi?",
-o:["Jejak digital","Kesehatan","Olahraga","Makanan"],
-j:"Jejak digital"
+t:"Rumus MIN digunakan untuk mencari?",
+o:["Nilai terkecil","Nilai terbesar","Jumlah data","Rata-rata"],
+j:"Nilai terkecil"
 },
+
 {
-t:"Sikap yang baik di media sosial adalah?",
-o:["Sopan santun","Menghina","Menyebar fitnah","Marah-marah"],
-j:"Sopan santun"
+t:"COUNT digunakan untuk?",
+o:["Menghitung jumlah data","Menjumlahkan","Mencari nilai maksimum","Membuat tabel"],
+j:"Menghitung jumlah data"
 },
+
 {
-t:"Cyberbullying dapat menyebabkan korban merasa?",
-o:["Bahagia","Sedih","Semangat","Biasa saja"],
-j:"Sedih"
+t:"Data teks disebut juga?",
+o:["String","Numerik","Video","Audio"],
+j:"String"
 },
+
 {
-t:"Teknologi informasi membantu manusia dalam?",
-o:["Komunikasi","Memperlambat pekerjaan","Menghapus data","Merusak alat"],
+t:"Aplikasi spreadsheet adalah?",
+o:["Excel","Paint","ScratchJr","Chrome"],
+j:"Excel"
+},
+
+{
+t:"File Excel memiliki ekstensi?",
+o:[".xlsx",".ppt",".jpg",".mp3"],
+j:".xlsx"
+},
+
+{
+t:"Penggunaan media sosial yang baik adalah?",
+o:["Sopan","Menghina","Menyebar hoax","Membully"],
+j:"Sopan"
+},
+
+{
+t:"Cyberbullying adalah?",
+o:["Perundungan di internet","Belajar online","Main game","Video call"],
+j:"Perundungan di internet"
+},
+
+{
+t:"Teknologi membantu manusia dalam?",
+o:["Komunikasi","Memperlambat pekerjaan","Menghapus file","Merusak data"],
 j:"Komunikasi"
 },
+
 {
-t:"Scratch cocok digunakan untuk belajar?",
-o:["Animasi dan coding","Olahraga","Memasak","Menggambar manual"],
-j:"Animasi dan coding"
+t:"ScratchJr menggunakan sistem?",
+o:["Blok visual","Bahasa mesin","Kode biner","Database"],
+j:"Blok visual"
+},
+
+{
+t:"Blok hijau pada ScratchJr biasanya berkaitan dengan?",
+o:["Suara","Gerakan","Pengulangan","Penghapusan"],
+j:"Suara"
+},
+
+{
+t:"Internet harus digunakan dengan?",
+o:["Bijak","Sembarangan","Marah","Asal-asalan"],
+j:"Bijak"
 }
+
 ];
 
 const quiz = document.getElementById("quiz");
 
 soal.forEach((s,index)=>{
-  let div = document.createElement("div");
-  div.className = "soal";
 
-  let html = `<p>${index+1}. ${s.t}</p>`;
+let div = document.createElement("div");
+div.className = "soal";
 
-  s.o.forEach(opt=>{
-    html += `
-      <label>
-        <input type="radio" name="soal${index}" value="${opt}">
-        ${opt}
-      </label>
-    `;
-  });
+let html = `<p>${index+1}. ${s.t}</p>`;
 
-  div.innerHTML = html;
-  quiz.appendChild(div);
+s.o.forEach(opt=>{
+html += `
+<label>
+<input type="radio" name="soal${index}" value="${opt}">
+${opt}
+</label>
+`;
+});
+
+div.innerHTML = html;
+quiz.appendChild(div);
+
 });
 
 function cekJawaban(){
-  let benar = 0;
 
-  soal.forEach((s,index)=>{
-    const pilihan = document.querySelector(`input[name="soal${index}"]:checked`);
-    const labels = document.querySelectorAll(`input[name="soal${index}"]`);
+let skor = 0;
 
-    labels.forEach(l=>{
-      l.parentElement.classList.remove("benar","salah");
+soal.forEach((s,index)=>{
 
-      if(l.value === s.j){
-        l.parentElement.classList.add("benar");
-      }
+const pilih = document.querySelector(`input[name="soal${index}"]:checked`);
+const semua = document.querySelectorAll(`input[name="soal${index}"]`);
 
-      if(pilihan && l.checked && l.value !== s.j){
-        l.parentElement.classList.add("salah");
-      }
-    });
+semua.forEach(i=>{
 
-    if(pilihan && pilihan.value === s.j){
-      benar++;
-    }
-  });
+i.parentElement.classList.remove("benar","salah");
 
-  document.getElementById("hasil").innerHTML =
-    `Nilai Anda: ${benar}/40`;
+if(i.value === s.j){
+i.parentElement.classList.add("benar");
 }
+
+if(pilih && i.checked && i.value !== s.j){
+i.parentElement.classList.add("salah");
+}
+
+});
+
+if(pilih && pilih.value === s.j){
+skor++;
+}
+
+});
+
+document.getElementById("hasil").innerHTML =
+"Nilai Anda : " + skor + " / 40";
+
+}
+
 </script>
 
 </body>
