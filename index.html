@@ -1,334 +1,661 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Ujian Informatika</title>
-  <style>
-    body{
-      font-family: Arial, sans-serif;
-      background:#f2f2f2;
-      margin:0;
-      padding:20px;
-    }
-    .container{
-      max-width:900px;
-      margin:auto;
-      background:white;
-      padding:25px;
-      border-radius:12px;
-      box-shadow:0 0 10px rgba(0,0,0,0.2);
-    }
-    h1{
-      text-align:center;
-      color:#1e3a8a;
-    }
-    .question{
-      margin-bottom:25px;
-      padding:15px;
-      border-left:5px solid #2563eb;
-      background:#f9fafb;
-      border-radius:8px;
-    }
-    .question p{
-      font-weight:bold;
-    }
-    button{
-      display:block;
-      width:100%;
-      padding:15px;
-      background:#2563eb;
-      color:white;
-      border:none;
-      border-radius:10px;
-      font-size:18px;
-      cursor:pointer;
-    }
-    button:hover{
-      background:#1d4ed8;
-    }
-    .result{
-      margin-top:30px;
-      padding:20px;
-      background:#ecfeff;
-      border-radius:10px;
-    }
-    .correct{
-      color:green;
-      font-weight:bold;
-    }
-    .wrong{
-      color:red;
-      font-weight:bold;
-    }
-  </style>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Simulasi Ujian Informatika</title>
+
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Segoe UI,sans-serif;
+}
+
+body{
+    background:#f1f5f9;
+    padding:15px;
+    color:#222;
+}
+
+.container{
+    max-width:1000px;
+    margin:auto;
+}
+
+.header{
+    background:#1e293b;
+    color:white;
+    padding:20px;
+    border-radius:15px;
+    margin-bottom:20px;
+    text-align:center;
+}
+
+.header h1{
+    font-size:28px;
+}
+
+.header p{
+    margin-top:8px;
+    opacity:.9;
+}
+
+.soal{
+    background:white;
+    padding:18px;
+    border-radius:15px;
+    margin-bottom:18px;
+    box-shadow:0 3px 10px rgba(0,0,0,.08);
+}
+
+.nomor{
+    font-weight:bold;
+    margin-bottom:10px;
+    color:#0f172a;
+    font-size:18px;
+}
+
+.pilihan label{
+    display:block;
+    margin:10px 0;
+    padding:12px;
+    border:2px solid #ddd;
+    border-radius:10px;
+    cursor:pointer;
+    transition:.2s;
+    line-height:1.5;
+}
+
+.pilihan label:hover{
+    background:#f8fafc;
+    border-color:#3b82f6;
+}
+
+input[type=radio]{
+    margin-right:10px;
+}
+
+button{
+    width:100%;
+    padding:16px;
+    border:none;
+    border-radius:14px;
+    background:#16a34a;
+    color:white;
+    font-size:18px;
+    font-weight:bold;
+    cursor:pointer;
+    margin-top:20px;
+}
+
+button:hover{
+    background:#15803d;
+}
+
+#hasil{
+    margin-top:25px;
+    padding:20px;
+    border-radius:15px;
+    background:white;
+    box-shadow:0 3px 10px rgba(0,0,0,.08);
+    font-size:20px;
+    font-weight:bold;
+    text-align:center;
+}
+
+.benar{
+    background:#dcfce7 !important;
+    border-color:#16a34a !important;
+}
+
+.salah{
+    background:#fee2e2 !important;
+    border-color:#dc2626 !important;
+}
+
+@media(max-width:700px){
+
+.header h1{
+    font-size:22px;
+}
+
+.soal{
+    padding:15px;
+}
+
+.pilihan label{
+    font-size:14px;
+}
+
+button{
+    font-size:16px;
+}
+
+}
+</style>
 </head>
 <body>
 
 <div class="container">
-  <h1>Ujian Informatika</h1>
 
-  <form id="quizForm"></form>
+<div class="header">
+<h1>Simulasi Ujian Informatika</h1>
+<p>40 Soal Pilihan Ganda • Tingkat Sulit • Teliti membaca soal dan pilihan jawaban</p>
+</div>
 
-  <button onclick="checkAnswers()">Submit Jawaban</button>
+<form id="quizForm"></form>
 
-  <div class="result" id="result"></div>
+<button onclick="cekJawaban()">Koreksi Jawaban</button>
+
+<div id="hasil"></div>
+
 </div>
 
 <script>
-const questions = [
+
+const soal = [
+
 {
-q:"1. Program pengolah angka yang sering digunakan adalah ...",
-o:["Ms. Excel","Paint","WordPad","Chrome"],
-a:"Ms. Excel"
+t:"Pada Microsoft Excel, tanda yang WAJIB ditulis pertama kali ketika ingin menggunakan rumus adalah...",
+o:[
+"#",
+"=",
+":",
+"&"
+],
+a:1
 },
+
 {
-q:"2. Fungsi utama Microsoft Excel adalah ...",
-o:["Mengolah angka","Mengedit video","Browsing","Menggambar"],
-a:"Mengolah angka"
+t:"Rumus yang benar untuk menjumlahkan isi sel A1 sampai A10 adalah...",
+o:[
+"=SUM(A1-A10)",
+"=SUM(A1:A10)",
+"=SUM(A1,A10)",
+"=SUM(A1;A10;)"
+],
+a:1
 },
+
 {
-q:"3. File Excel memiliki ekstensi ...",
-o:[".xlsx",".ppt",".jpg",".mp3"],
-a:".xlsx"
+t:"Jika pada Excel ditulis =AVERAGE(10,20,30), maka hasilnya adalah...",
+o:["15","20","25","30"],
+a:1
 },
+
 {
-q:"4. Perpotongan baris dan kolom disebut ...",
-o:["Sel","Sheet","Range","Workbook"],
-a:"Sel"
+t:"Perhatikan rumus berikut: =SUM(B1:B5)+AVERAGE(C1:C5). Fungsi utama dari rumus tersebut adalah...",
+o:[
+"Menjumlahkan seluruh data pada kolom B dan C",
+"Menghitung rata-rata kolom B lalu menjumlahkan kolom C",
+"Menjumlahkan data kolom B kemudian ditambah rata-rata kolom C",
+"Menggabungkan isi sel B dan C"
+],
+a:2
 },
+
 {
-q:"5. Rumus Excel selalu diawali dengan ...",
-o:["=","+","-","@"],
-a:"="
+t:"Rumus SUMIF digunakan untuk...",
+o:[
+"Mencari nilai terbesar",
+"Menghitung jumlah data dengan syarat tertentu",
+"Mencari rata-rata otomatis",
+"Mengurutkan data berdasarkan abjad"
+],
+a:1
 },
+
 {
-q:"6. Fungsi SUM digunakan untuk ...",
-o:["Menjumlahkan data","Menghitung rata-rata","Mencari data","Menghapus data"],
-a:"Menjumlahkan data"
+t:"Perhatikan rumus berikut: =SUMIF(A1:A5,\">70\",B1:B5). Rumus tersebut berarti...",
+o:[
+"Menjumlahkan semua nilai di kolom A yang lebih dari 70",
+"Menjumlahkan data pada kolom B jika data kolom A lebih dari 70",
+"Menjumlahkan seluruh kolom B",
+"Menghitung rata-rata kolom B jika kolom A lebih dari 70"
+],
+a:1
 },
+
 {
-q:"7. Fungsi AVERAGE digunakan untuk ...",
-o:["Menghitung rata-rata","Menjumlahkan","Mengurutkan","Menghapus"],
-a:"Menghitung rata-rata"
+t:"Penulisan rumus SUMIF yang PALING benar adalah...",
+o:[
+"=SUMIF(A1:A5\">50\",B1:B5)",
+"=SUMIF(A1:A5;\">50\";B1:B5)",
+"SUMIF(A1:A5,\">50\",B1:B5)",
+"=SUMIF(A1:A5:\" >50 \":B1:B5)"
+],
+a:1
 },
+
 {
-q:"8. Rumus =SUM(A1:A5) berarti ...",
-o:["Menjumlahkan A1 sampai A5","Mencari nilai terbesar","Membagi angka","Menghapus data"],
-a:"Menjumlahkan A1 sampai A5"
+t:"Sel yang berada pada perpotongan kolom C dan baris 12 ditulis sebagai...",
+o:["12C","C12","12:C","COL12"],
+a:1
 },
+
 {
-q:"9. Data yang berupa angka disebut ...",
-o:["Data numerik","Data teks","Data gambar","Data audio"],
-a:"Data numerik"
+t:"Pada Excel, simbol ':' pada A1:A10 menunjukkan...",
+o:[
+"Pengurangan",
+"Gabungan dua sel",
+"Rentang sel",
+"Pemisah rumus"
+],
+a:2
 },
+
 {
-q:"10. Tujuan analisis data adalah ...",
-o:["Mendapat informasi","Menghapus data","Menggambar","Membuat game"],
-a:"Mendapat informasi"
+t:"Jika sel D5 aktif, maka yang benar adalah...",
+o:[
+"Kolom D dan baris 5 sedang dipilih",
+"Baris D dan kolom 5 sedang dipilih",
+"Hanya kolom D aktif",
+"Hanya baris 5 aktif"
+],
+a:0
 },
+
 {
-q:"11. Fungsi SUMIF digunakan untuk ...",
-o:["Menjumlahkan dengan syarat","Menghapus data","Menghitung gambar","Membuat tabel"],
-a:"Menjumlahkan dengan syarat"
+t:"Tujuan utama analisis data adalah...",
+o:[
+"Menghapus seluruh data",
+"Membuat tampilan menjadi berwarna",
+"Mengubah data menjadi informasi yang berguna",
+"Memperbesar ukuran file"
+],
+a:2
 },
+
 {
-q:"12. Contoh rumus SUMIF yang benar adalah ...",
-o:["=SUMIF(A1:A5,\">70\")","SUMIF(A1:A5)","=AVERAGE(A1:A5)","=MAX(A1:A5)"],
-a:"=SUMIF(A1:A5,\">70\")"
+t:"Data yang berbentuk angka seperti nilai ujian dan tinggi badan termasuk jenis data...",
+o:[
+"Kualitatif",
+"Kuantitatif",
+"Visual",
+"Naratif"
+],
+a:1
 },
+
 {
-q:"13. Posisi sel B3 berarti ...",
-o:["Kolom B baris 3","Kolom 3 baris B","Baris B kolom 3","Sel ke 3"],
-a:"Kolom B baris 3"
+t:"Data kualitatif biasanya berupa...",
+o:[
+"Bilangan pecahan",
+"Hasil pengukuran",
+"Kategori atau deskripsi",
+"Perhitungan statistik"
+],
+a:2
 },
+
 {
-q:"14. Huruf pada Excel menunjukkan ...",
-o:["Kolom","Baris","Sheet","Rumus"],
-a:"Kolom"
+t:"Algoritma adalah...",
+o:[
+"Program antivirus",
+"Langkah-langkah logis untuk menyelesaikan masalah",
+"Perangkat keras komputer",
+"Aplikasi pengolah kata"
+],
+a:1
 },
+
 {
-q:"15. Angka pada Excel menunjukkan ...",
-o:["Baris","Kolom","Sel","Data"],
-a:"Baris"
+t:"Dalam ScratchJr, karakter yang dapat diberi perintah disebut...",
+o:[
+"Sprite",
+"Stage",
+"Panel",
+"Canvas"
+],
+a:0
 },
+
 {
-q:"16. Algoritma adalah ...",
-o:["Langkah-langkah menyelesaikan masalah","Program game","Aplikasi gambar","Mesin pencari"],
-a:"Langkah-langkah menyelesaikan masalah"
+t:"Fungsi Stage pada ScratchJr adalah...",
+o:[
+"Tempat menulis kode",
+"Tempat sprite bergerak dan tampil",
+"Tempat menyimpan file",
+"Tombol untuk menjalankan program"
+],
+a:1
 },
+
 {
-q:"17. ScratchJr digunakan untuk ...",
-o:["Belajar coding anak","Mengedit video","Browsing","Mengetik surat"],
-a:"Belajar coding anak"
+t:"Blok perintah berwarna biru pada ScratchJr biasanya digunakan untuk...",
+o:[
+"Gerakan",
+"Suara",
+"Pengulangan",
+"Awal program"
+],
+a:0
 },
+
 {
-q:"18. Sprite pada ScratchJr adalah ...",
-o:["Karakter objek","Latar belakang","Suara","Tombol keluar"],
-a:"Karakter objek"
+t:"Blok berwarna kuning pada ScratchJr umumnya digunakan untuk...",
+o:[
+"Gerakan",
+"Awal atau pemicu program",
+"Menghapus sprite",
+"Mengubah ukuran karakter"
+],
+a:1
 },
+
 {
-q:"19. Stage pada ScratchJr adalah ...",
-o:["Tempat sprite bergerak","Karakter","Rumus","Keyboard"],
-a:"Tempat sprite bergerak"
+t:"Jika sprite diberi perintah bergerak 10 langkah ke kanan lalu 10 langkah ke kiri, maka posisi akhirnya...",
+o:[
+"Berpindah 20 langkah",
+"Tetap di posisi awal",
+"Bergeser ke kanan",
+"Bergeser ke kiri"
+],
+a:1
 },
+
 {
-q:"20. Blok biru pada ScratchJr biasanya untuk ...",
-o:["Gerakan","Suara","Tampilan","Awal program"],
-a:"Gerakan"
+t:"Logika program diperlukan agar...",
+o:[
+"Komputer menjadi lebih berat",
+"Program berjalan sesuai urutan yang benar",
+"Ukuran file bertambah",
+"Warna tampilan berubah"
+],
+a:1
 },
+
 {
-q:"21. Blok kuning pada ScratchJr berfungsi sebagai ...",
-o:["Pemicu awal","Gerakan","Suara","Berhenti"],
-a:"Pemicu awal"
+t:"Hoaks adalah...",
+o:[
+"Berita benar dari pemerintah",
+"Informasi palsu yang menyesatkan",
+"File komputer rusak",
+"Data hasil penelitian"
+],
+a:1
 },
+
 {
-q:"22. Blok hijau biasanya berkaitan dengan ...",
-o:["Suara","Gerakan","Awal","Data"],
-a:"Suara"
+t:"Langkah terbaik sebelum membagikan informasi di media sosial adalah...",
+o:[
+"Langsung membagikannya",
+"Memastikan sumber informasi terpercaya",
+"Menghapus komentar orang lain",
+"Mengganti judul berita"
+],
+a:1
 },
+
 {
-q:"23. Urutan langkah program disebut ...",
-o:["Logika program","Wallpaper","Ikon","Data"],
-a:"Logika program"
+t:"Jejak digital adalah...",
+o:[
+"Jejak kaki pada layar",
+"Riwayat aktivitas pengguna di internet",
+"Data komputer yang hilang",
+"Program penghapus virus"
+],
+a:1
 },
+
 {
-q:"24. Jika sprite tidak bergerak maka kemungkinan ...",
-o:["Blok gerak belum dipasang","Komputer mati","Mouse rusak","Speaker rusak"],
-a:"Blok gerak belum dipasang"
+t:"Dampak negatif membagikan data pribadi sembarangan di internet adalah...",
+o:[
+"Akun menjadi lebih cepat",
+"Risiko pencurian data",
+"Koneksi internet meningkat",
+"Penyimpanan bertambah"
+],
+a:1
 },
+
 {
-q:"25. Informasi palsu disebut ...",
-o:["Hoax","Fakta","Data","Berita resmi"],
-a:"Hoax"
+t:"Perhatikan rumus berikut: =SUM(A1:A5,B1:B5). Fungsi rumus tersebut adalah...",
+o:[
+"Menjumlahkan dua rentang data",
+"Menghitung rata-rata",
+"Mengurangi kolom A dengan B",
+"Mengurutkan data"
+],
+a:0
 },
+
 {
-q:"26. Cara menghadapi hoax adalah ...",
-o:["Memeriksa sumber informasi","Langsung menyebarkan","Mempercayai semua berita","Menghapus akun"],
-a:"Memeriksa sumber informasi"
+t:"Rumus berikut yang SALAH penulisannya adalah...",
+o:[
+"=AVERAGE(A1:A10)",
+"=SUM(A1:A10)",
+"=SUMIF(A1:A5,\">50\",B1:B5)",
+"=AVERAGE(A1;A10:"
+],
+a:3
 },
+
 {
-q:"27. Jejak digital adalah ...",
-o:["Rekaman aktivitas di internet","Jejak kaki","Data komputer rusak","Gambar digital"],
-a:"Rekaman aktivitas di internet"
+t:"Jika rumus =SUM(5,10,15)/3 digunakan, maka hasilnya...",
+o:["5","10","15","30"],
+a:1
 },
+
 {
-q:"28. Password yang baik sebaiknya ...",
-o:["Sulit ditebak","Nama sendiri","123456","Tanggal lahir"],
-a:"Sulit ditebak"
+t:"Perhatikan tabel berikut. Jika nilai pada A1=50, A2=70, A3=90, maka hasil dari =AVERAGE(A1:A3) adalah...",
+o:["60","70","75","80"],
+a:1
 },
+
 {
-q:"29. Dampak negatif media sosial adalah ...",
-o:["Kecanduan","Menambah teman","Belajar online","Berbagi informasi"],
-a:"Kecanduan"
+t:"Fungsi utama Microsoft Excel adalah...",
+o:[
+"Mengedit video",
+"Mengolah data angka dan tabel",
+"Membuat game 3D",
+"Menggambar ilustrasi"
+],
+a:1
 },
+
 {
-q:"30. Contoh data teks adalah ...",
-o:["Nama siswa","Nilai 90","Tanggal","Rumus"],
-a:"Nama siswa"
+t:"Rumus =SUMIF(B1:B5,\"Lulus\",C1:C5) berarti...",
+o:[
+"Menghitung jumlah siswa",
+"Menjumlahkan nilai pada kolom C jika kolom B berisi kata Lulus",
+"Menghapus data Lulus",
+"Mengurutkan data berdasarkan nilai"
+],
+a:1
 },
+
 {
-q:"31. Workbook pada Excel adalah ...",
-o:["File Excel","Kolom","Baris","Rumus"],
-a:"File Excel"
+t:"Pada Excel, tanda koma ',' dalam rumus digunakan untuk...",
+o:[
+"Memisahkan argumen fungsi",
+"Mengakhiri program",
+"Membuat komentar",
+"Menghapus rumus"
+],
+a:0
 },
+
 {
-q:"32. Sheet adalah ...",
-o:["Lembar kerja Excel","Rumus","Kolom","Baris"],
-a:"Lembar kerja Excel"
+t:"Dalam algoritma, langkah yang tidak logis akan menyebabkan...",
+o:[
+"Program berjalan lebih cepat",
+"Hasil program tidak sesuai",
+"Warna tampilan berubah",
+"Komputer otomatis mati"
+],
+a:1
 },
+
 {
-q:"33. Fungsi utama tabel adalah ...",
-o:["Merapikan data","Menggambar","Memutar musik","Menonton video"],
-a:"Merapikan data"
+t:"Perintah yang dijalankan berulang kali disebut...",
+o:[
+"Looping",
+"Delete",
+"Compile",
+"Browsing"
+],
+a:0
 },
+
 {
-q:"34. Blok merah pada ScratchJr biasanya berarti ...",
-o:["Berhenti","Suara","Gerak","Awal"],
-a:"Berhenti"
+t:"ScratchJr termasuk aplikasi berbasis...",
+o:[
+"Pemrograman visual",
+"Pengolah angka",
+"Pengedit video",
+"Sistem operasi"
+],
+a:0
 },
+
 {
-q:"35. Coding adalah ...",
-o:["Membuat program","Menggambar","Mengetik","Menghapus data"],
-a:"Membuat program"
+t:"Media sosial dapat memberikan dampak positif jika digunakan untuk...",
+o:[
+"Menyebarkan hoaks",
+"Cyberbullying",
+"Belajar dan berbagi informasi bermanfaat",
+"Mencuri data orang lain"
+],
+a:2
 },
+
 {
-q:"36. Internet harus digunakan secara ...",
-o:["Bijak","Sembarangan","Berlebihan","Terus menerus"],
-a:"Bijak"
+t:"Perhatikan penulisan berikut: =SUM(A1:A5)+SUM(B1:B5). Rumus tersebut berarti...",
+o:[
+"Menjumlahkan dua hasil penjumlahan",
+"Mengurangi kolom A dan B",
+"Mencari rata-rata",
+"Membandingkan data"
+],
+a:0
 },
+
 {
-q:"37. Data angka lebih mudah dianalisis menggunakan ...",
-o:["Excel","Paint","Chrome","YouTube"],
-a:"Excel"
+t:"Jika sebuah akun menggunakan password sangat mudah ditebak, maka risikonya adalah...",
+o:[
+"Akun lebih aman",
+"Akun mudah diretas",
+"Internet lebih cepat",
+"Data otomatis tersimpan"
+],
+a:1
 },
+
 {
-q:"38. Rumus untuk mencari rata-rata adalah ...",
-o:["AVERAGE","SUM","IF","COUNT"],
-a:"AVERAGE"
+t:"Data hasil wawancara berupa pendapat termasuk data...",
+o:[
+"Kuantitatif",
+"Kualitatif",
+"Numerik",
+"Statistik"
+],
+a:1
 },
+
 {
-q:"39. Media sosial dapat bermanfaat untuk ...",
-o:["Belajar dan komunikasi","Menyebar hoax","Menipu orang","Merusak data"],
-a:"Belajar dan komunikasi"
+t:"Blok perintah yang memulai program pada ScratchJr biasanya memiliki simbol...",
+o:[
+"Bendera hijau",
+"Tempat sampah",
+"Speaker",
+"Kaca pembesar"
+],
+a:0
 },
+
 {
-q:"40. Sebelum membagikan informasi kita harus ...",
-o:["Memastikan kebenarannya","Langsung share","Menghapusnya","Diam saja"],
-a:"Memastikan kebenarannya"
+t:"Perhatikan rumus berikut: =SUM(A1:A5)/AVERAGE(B1:B5). Rumus tersebut akan...",
+o:[
+"Membagi hasil jumlah kolom A dengan rata-rata kolom B",
+"Menjumlahkan semua data A dan B",
+"Mencari rata-rata dua kolom",
+"Menghapus data kosong"
+],
+a:0
+},
+
+{
+t:"Sikap yang tepat saat menerima berita mencurigakan di internet adalah...",
+o:[
+"Langsung menyebarkannya",
+"Memeriksa kebenaran informasi terlebih dahulu",
+"Mengubah isi berita",
+"Menyimpan tanpa membaca"
+],
+a:1
 }
+
 ];
 
 const form = document.getElementById("quizForm");
 
-questions.forEach((item,index)=>{
-  let div=document.createElement("div");
-  div.className="question";
+soal.forEach((s,i)=>{
 
-  let html=`<p>${item.q}</p>`;
+let html = `
+<div class="soal">
+<div class="nomor">Soal ${i+1}</div>
+<p>${s.t}</p>
+<div class="pilihan">
+`;
 
-  item.o.sort(()=>Math.random()-0.5);
-
-  item.o.forEach(opt=>{
-    html += `
-    <label>
-      <input type="radio" name="q${index}" value="${opt}">
-      ${opt}
-    </label><br>`;
-  });
-
-  div.innerHTML=html;
-  form.appendChild(div);
+s.o.forEach((opsi,index)=>{
+html += `
+<label id="label-${i}-${index}">
+<input type="radio" name="soal${i}" value="${index}">
+${opsi}
+</label>
+`;
 });
 
-function checkAnswers(){
-  let score=0;
-  let resultHTML="";
+html += `</div></div>`;
 
-  questions.forEach((item,index)=>{
-    let answer=document.querySelector(`input[name="q${index}"]:checked`);
+form.innerHTML += html;
 
-    if(answer){
-      if(answer.value===item.a){
-        score++;
-        resultHTML += `<p class="correct">✔ ${item.q} — Benar</p>`;
-      } else {
-        resultHTML += `<p class="wrong">✘ ${item.q}<br>
-        Jawaban Anda: ${answer.value}<br>
-        Jawaban Benar: ${item.a}</p>`;
-      }
-    } else {
-      resultHTML += `<p class="wrong">✘ ${item.q}<br>
-      Tidak dijawab<br>
-      Jawaban Benar: ${item.a}</p>`;
-    }
-  });
+});
 
-  document.getElementById("result").innerHTML =
-    `<h2>Nilai Anda: ${score} / ${questions.length}</h2>` + resultHTML;
+function cekJawaban(){
 
-  window.scrollTo(0,document.body.scrollHeight);
+let skor = 0;
+
+soal.forEach((s,i)=>{
+
+let jawab = document.querySelector(`input[name="soal${i}"]:checked`);
+
+for(let j=0;j<4;j++){
+document.getElementById(`label-${i}-${j}`).classList.remove("benar","salah");
 }
+
+if(jawab){
+
+let nilai = parseInt(jawab.value);
+
+if(nilai === s.a){
+skor++;
+document.getElementById(`label-${i}-${nilai}`).classList.add("benar");
+}else{
+document.getElementById(`label-${i}-${nilai}`).classList.add("salah");
+document.getElementById(`label-${i}-${s.a}`).classList.add("benar");
+}
+
+}else{
+document.getElementById(`label-${i}-${s.a}`).classList.add("benar");
+}
+
+});
+
+document.getElementById("hasil").innerHTML =
+"Nilai Anda : <br><br>" + skor + " / 40";
+
+window.scrollTo({
+top:document.body.scrollHeight,
+behavior:"smooth"
+});
+
+}
+
 </script>
 
 </body>
